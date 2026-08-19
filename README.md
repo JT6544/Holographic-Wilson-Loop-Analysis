@@ -81,9 +81,9 @@ The script displays figures using `plt.show()`. When using an interactive Matplo
 
 The model uses the deformed warp factor
 
-$$
+```math
 F(U)=U^2+\frac{\Sigma^2}{U^2},
-$$
+```
 
 where:
 
@@ -93,52 +93,52 @@ where:
 
 At large $U$,
 
-$$
+```math
 F(U)\sim U^2,
-$$
+```
 
 so the geometry remains asymptotically AdS in the UV.
 
 The warp factor has a minimum at
 
-$$
+```math
 U_\star=\sqrt{\Sigma},
-$$
+```
 
 with
 
-$$
+```math
 F(U_\star)=2\Sigma.
-$$
+```
 
 This minimum provides a preferred radial position for the string worldsheet. At large boundary separation, the string approaches this position and develops a long approximately horizontal section, producing a linear contribution to the energy.
 
 The analytical string tension is
 
-$$
+```math
 T_{\mathrm{string}} = \frac{\Sigma}{\pi R^2}.
-$$
+```
 
 At short separation, the deformation becomes negligible and the potential approaches the AdS Coulomb form
 
-$$
+```math
 E(\ell)
 \sim
 -\frac{\alpha}{\ell}+c_{\mathrm{UV}},
-$$
+```
 
 where
 
-$$
+```math
 \alpha_{\mathrm{exact}} = \frac{4\pi^2R^2}{\Gamma\!\left(\frac14\right)^4}.
-$$
+```
 
 For the default value $R=1$,
 
-$$
+```math
 \alpha_{\mathrm{exact}}
 \approx 0.22847329.
-$$
+```
 
 The additive constants in the UV and IR expressions depend on the subtraction convention. The physically important quantities are therefore the Coulomb coefficient and the large-distance slope.
 
@@ -146,25 +146,25 @@ The additive constants in the UV and IR expressions depend on the subtraction co
 
 The numerical analysis tests whether the reconstructed potential has the asymptotic forms
 
-$$
+```math
 E(\ell)
 \sim
 -\frac{\alpha_{\mathrm{exact}}}{\ell}
 +c_{\mathrm{UV}}
 \qquad
 (\ell\to0)
-$$
+```
 
 and
 
-$$
+```math
 E(\ell)
 \sim
 T_{\mathrm{string}}\ell
 +c_{\mathrm{IR}}
 \qquad
 (\ell\to\infty).
-$$
+```
 
 The default deformation values are
 
@@ -203,9 +203,9 @@ For each value of $\Sigma$, the program:
 
 The turning point is parameterised as
 
-$$
+```math
 U_0=U_\star+\epsilon,
-$$
+```
 
 where $\epsilon>0$.
 
@@ -221,17 +221,17 @@ eps_grid = np.logspace(
 
 This is useful because the large-$\ell$ behaviour occurs when
 
-$$
+```math
 U_0\to U_\star.
-$$
+```
 
 A uniformly spaced grid would place relatively few points close to this sensitive IR region. The logarithmic grid concentrates points near the minimum while still extending into the UV.
 
 The settings should satisfy
 
-$$
+```math
 U_{\max}>\sqrt{\Sigma}
-$$
+```
 
 for every value of $\Sigma$.
 
@@ -239,11 +239,11 @@ for every value of $\Sigma$.
 
 The complete potential is not reconstructed from a closed analytical expression for $E(\ell)$. Instead, the code calculates
 
-$$
+```math
 \ell=\ell(U_0),
 \qquad
 E=E(U_0),
-$$
+```
 
 and eliminates $U_0$ numerically by sorting the computed pairs according to $\ell$.
 
@@ -253,37 +253,37 @@ The resulting arrays provide a numerical representation of the potential across 
 
 The radial integrals contain a square-root singularity at the lower limit $U=U_0$. The code introduces
 
-$$
+```math
 U=U_0+t^2,
 \qquad
 dU=2t\,dt.
-$$
+```
 
 The integration range becomes
 
-$$
+```math
 0\leq t\leq\sqrt{U_{\max}-U_0}.
-$$
+```
 
 This substitution removes the explicit endpoint singularity and improves the behaviour of the adaptive quadrature.
 
 With
 
-$$
+```math
 F_0=F(U_0),
-$$
+```
 
 the numerical separation is calculated from
 
-$$
+```math
 \ell(U_0)=2R^2F_0\int_0^{\sqrt{U_{\max}-U_0}}\frac{2t\,dt}{F(U_0+t^2)\sqrt{F(U_0+t^2)^2-F_0^2}}.
-$$
+```
 
 The renormalised energy is calculated using
 
-$$
+```math
 E(U_0)=\frac{1}{\pi}\left[\int_0^{\sqrt{U_{\max}-U_0}}2t\left(\frac{F(U_0+t^2)}{\sqrt{F(U_0+t^2)^2-F_0^2}}-1\right)dt-(U_0-U_\star)\right].
-$$
+```
 
 Both integrals are evaluated using `scipy.integrate.quad`.
 
@@ -329,9 +329,9 @@ np.gradient(E_sorted, ell_sorted)
 
 which approximates
 
-$$
+```math
 \frac{dE}{d\ell}.
-$$
+```
 
 This derivative is used in both the UV and IR diagnostics.
 
@@ -346,27 +346,27 @@ The UV diagnostic uses the unsmoothed derivative.
 
 The effective Coulomb coefficient is defined as
 
-$$
+```math
 \alpha_{\mathrm{eff}}(\ell)=\ell^2\frac{dE}{d\ell}.
-$$
+```
 
 If
 
-$$
+```math
 E(\ell)=-\frac{\alpha}{\ell}+c,
-$$
+```
 
 then
 
-$$
+```math
 \frac{dE}{d\ell}=\frac{\alpha}{\ell^2}
-$$
+```
 
 and therefore
 
-$$
+```math
 \alpha_{\mathrm{eff}}(\ell)\to\alpha.
-$$
+```
 
 The code tests a series of relative tolerances:
 
@@ -376,9 +376,9 @@ uv_alpha_tols = [0.01, 0.015, 0.02]
 
 The tightest tolerance is tested first. Points are accepted when
 
-$$
+```math
 \frac{\left|\alpha_{\mathrm{eff}}-\alpha_{\mathrm{exact}}\right|}{\alpha_{\mathrm{exact}}}\leq\text{tolerance}.
-$$
+```
 
 The accepted points are divided into contiguous blocks. A valid block must contain at least
 
@@ -390,15 +390,15 @@ points.
 
 The longest valid block is selected and fitted as a straight line in $E$ against $1/\ell$:
 
-$$
+```math
 E=m\left(\frac{1}{\ell}\right)+c.
-$$
+```
 
 The numerical Coulomb coefficient is then
 
-$$
+```math
 \alpha_{\mathrm{fit}}=-m.
-$$
+```
 
 The code reports:
 
@@ -413,15 +413,15 @@ The code reports:
 
 The local effective string tension is
 
-$$
+```math
 T_{\mathrm{eff}}(\ell)=\frac{dE}{d\ell}.
-$$
+```
 
 The analytical target is
 
-$$
+```math
 T_{\mathrm{exact}}=\frac{\Sigma}{\pi R^2}.
-$$
+```
 
 The code compares the smoothed derivative with this value using
 
@@ -431,9 +431,9 @@ ir_tension_tols = [0.002, 0.003, 0.005]
 
 and accepts points satisfying
 
-$$
+```math
 \frac{\left|T_{\mathrm{eff}}-T_{\mathrm{exact}}\right|}{T_{\mathrm{exact}}}\leq\text{tolerance}.
-$$
+```
 
 A valid IR region must contain at least
 
@@ -445,9 +445,9 @@ contiguous points.
 
 The chosen region is fitted using
 
-$$
+```math
 E(\ell)=T_{\mathrm{fit}}\ell+c.
-$$
+```
 
 The code reports:
 
@@ -522,7 +522,7 @@ scanning_range_convergence_test()
 
 repeats the IR extraction using several cutoff values:
 
-$$
+```math
 0.5U_{\max},
 \quad
 0.75U_{\max},
@@ -530,7 +530,7 @@ $$
 U_{\max},
 \quad
 1.25U_{\max}.
-$$
+```
 
 For each cutoff, it records:
 
@@ -577,13 +577,13 @@ For each value of $\Sigma$, representative points are selected from the UV, cros
 
 Each row contains
 
-$$
+```math
 U_0,
 \qquad
 \ell(U_0),
 \qquad
 E(U_0).
-$$
+```
 
 ### Cutoff-convergence table
 
@@ -619,9 +619,9 @@ The UV diagnostic plots $E$ against $1/\ell$ over a zoomed window surrounding th
 
 A Coulomb potential is linear in this representation:
 
-$$
+```math
 E=-\alpha\left(\frac{1}{\ell}\right)+c.
-$$
+```
 
 The fitted and exact slopes can therefore be compared visually without the extremely small-$\ell$ endpoint values compressing the scientifically relevant window.
 
@@ -629,9 +629,9 @@ The fitted and exact slopes can therefore be compared visually without the extre
 
 The IR diagnostic plots the smoothed local derivative
 
-$$
+```math
 \frac{dE}{d\ell}
-$$
+```
 
 against $\ell$, together with the exact tension. Each panel is displayed over the selected IR fit region with a small amount of preceding context.
 
